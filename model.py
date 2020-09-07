@@ -21,8 +21,8 @@ data['Churn'] =data['Churn'].map({'Yes':1,'No':0})
 
 data = data[['tenure','MonthlyCharges','TotalCharges','Churn']]
 # Model building
-X = data.drop(['Churn'], axis=1)
-y = data.Churn
+X = data.drop(['Churn'], axis=1).values
+y = data.Churn.values
 X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.3,random_state=100, stratify=y)
 
 xgb = XGBClassifier(n_estimators=800, n_jobs=-1)
@@ -39,5 +39,5 @@ pickle.dump(xgb, open('model.pkl','wb'))
 
 # Loading model to compare the results
 model = pickle.load(open('model.pkl','rb'))
-print(model.predict(X_test))
+print(model.predict(np.array([[20,876,900]])))
 
